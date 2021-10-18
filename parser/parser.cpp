@@ -12,31 +12,58 @@ void ClearScreen()
 COORD cursorPosition;	cursorPosition.X = 0;	cursorPosition.Y = 0;	SetConsoleCursorPosition(GetStdHandle(((DWORD)-11)), cursorPosition);
 }
 
-
-
+PacketHeader pHead;
+PacketCarTelemetryData telemetry;
+PacketLapData lap_data;
+PacketCarStatusData status;
+PacketCarSetupData setups;
+PacketEventData events;
+PacketFinalClassificationData final_class;
+PacketLobbyInfoData lobby_info;
+PacketMotionData motion;
+PacketParticipantsData participants;
+PacketSessionData session;
 
 void parse(char *buffer)
 {
-
-    PacketHeader pHead;
-    PacketCarTelemetryData telemetry;
-    PacketLapData lap_data;
     copy_to_header(buffer,&pHead);
-    if(pHead.m_packetId == CAR_TELEMETRY)
+    switch(pHead.m_packetId)
     {
-        copy_to_carTelemetry(buffer,&telemetry);
-        ClearScreen();
-        cout <<  "Speed: ";streamsize cur_width = cout.width(); cout.width(3);cout  << telemetry.m_carTelemetryData[telemetry.m_header.m_playerCarIndex].m_speed;cout.width(cur_width);cout  << " km/s  Gear: " << +telemetry.m_carTelemetryData[telemetry.m_header.m_playerCarIndex].m_gear << endl;
-        cout << "Best Lap: " << cout.width(10);cout << floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_bestLapTime / 60.0)) << ":"<< lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_bestLapTime -  floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_bestLapTime / 60.0)) * 60.0;cout.width(cur_width);cout << endl;
-        cout << "Current Lap: " << cout.width(7);cout << floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_currentLapTime / 60.0)) << ":"<< lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_currentLapTime -  floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_currentLapTime / 60.0)) * 60.0;;cout.width(cur_width);cout << endl;
+        case CAR_TELEMETRY:
+            copy_to_carTelemetry(buffer,&telemetry);
+            break;
+        case LAP_DATA:
+            copy_to_lapData(buffer,&lap_data);
+            break;
+        case CAR_STATUS:
+            copy_to_carStatus(buffer,&status);
+            break;
+        case CAR_SETUPS:
+            copy_to_carSetups(buffer,&setups);
+            break;
+        case EVENT:
+            copy_to_event(buffer,&events);
+            break;
+        case FINAL_CLASS:
+            copy_to_finalClass(buffer,&final_class);
+            break;
+        case LOBBY_INFO:
+            copy_to_lobbyInfo(buffer,&lobby_info);
+            break;
+        case MOTION:
+            copy_to_motion(buffer,&motion);
+            break;
+        case PARTICIPANTS:
+            copy_to_participants(buffer,&participants);
+            break;
+        case SESSION:
+            copy_to_session(buffer,&session);
+            break;
+        default:
+            break;
     }
-    else if(pHead.m_packetId == LAP_DATA)
-    {
-        copy_to_lapData(buffer,&lap_data);
-        ClearScreen();
-        cout <<  "Speed: ";streamsize cur_width = cout.width(); cout.width(3);cout  << telemetry.m_carTelemetryData[telemetry.m_header.m_playerCarIndex].m_speed;cout.width(cur_width);cout  << " km/s  Gear: " << +telemetry.m_carTelemetryData[telemetry.m_header.m_playerCarIndex].m_gear << endl;
-        cout << "Best Lap: " << cout.width(10);cout << floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_bestLapTime / 60.0)) << ":" << (float)lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_bestLapTime -  floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_bestLapTime / 60.0)) * 60.0;;cout.width(cur_width);cout << endl;
-        cout << "Current Lap: " << cout.width(7);cout << floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_currentLapTime / 60.0)) << ":" << lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_currentLapTime -  floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_currentLapTime / 60.0)) * 60.0;;cout.width(cur_width);cout << endl;
-    }
-
+    ClearScreen();
+    cout <<  "Speed: ";streamsize cur_width = cout.width(); cout.width(3);cout  << telemetry.m_carTelemetryData[telemetry.m_header.m_playerCarIndex].m_speed;cout.width(6);cout  << " km/s  Gear: " << +telemetry.m_carTelemetryData[telemetry.m_header.m_playerCarIndex].m_gear; cout.width(cur_width);cout << endl;
+    cout << "Best Lap: " << cout.width(10);cout << floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_bestLapTime / 60.0)) << ":" << (float)lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_bestLapTime -  floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_bestLapTime / 60.0)) * 60.0;;cout.width(cur_width);cout << endl;
+    cout << "Current Lap: " << cout.width(7);cout << floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_currentLapTime / 60.0)) << ":" << lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_currentLapTime -  floor((lap_data.m_lapData[lap_data.m_header.m_playerCarIndex].m_currentLapTime / 60.0)) * 60.0;;cout.width(cur_width);cout << endl;
 }

@@ -306,3 +306,246 @@ void copy_to_event(char *buffer,PacketEventData *event)
     offset += sizeof(event->m_eventDetails.SpeedTrap.speed);
 }
 
+
+void copy_to_finalClass(char *buffer,PacketFinalClassificationData *final)
+{
+    int offset = copy_to_header(buffer,&(final->m_header));
+    memcpy(&final->m_numCars,&buffer[offset],sizeof(final->m_numCars));
+    offset += sizeof(final->m_numCars);
+    for(int i = 0; i < 22; i++)
+    {
+        memcpy(&final->m_classificationData[i].m_position,&buffer[offset],sizeof(final->m_classificationData[i].m_position));
+        offset += sizeof(final->m_classificationData[i].m_position);
+        memcpy(&final->m_classificationData[i].m_numLaps,&buffer[offset],sizeof(final->m_classificationData[i].m_numLaps));
+        offset += sizeof(final->m_classificationData[i].m_numLaps);
+        memcpy(&final->m_classificationData[i].m_gridPosition,&buffer[offset],sizeof(final->m_classificationData[i].m_gridPosition));
+        offset += sizeof(final->m_classificationData[i].m_gridPosition);
+        memcpy(&final->m_classificationData[i].m_points,&buffer[offset],sizeof(final->m_classificationData[i].m_points));
+        offset += sizeof(final->m_classificationData[i].m_points);
+        memcpy(&final->m_classificationData[i].m_numPitStops,&buffer[offset],sizeof(final->m_classificationData[i].m_numPitStops));
+        offset += sizeof(final->m_classificationData[i].m_numPitStops);
+        memcpy(&final->m_classificationData[i].m_resultStatus,&buffer[offset],sizeof(final->m_classificationData[i].m_resultStatus));
+        offset += sizeof(final->m_classificationData[i].m_resultStatus);
+        memcpy(&final->m_classificationData[i].m_bestLapTime,&buffer[offset],sizeof(final->m_classificationData[i].m_bestLapTime));
+        offset += sizeof(final->m_classificationData[i].m_bestLapTime);
+        memcpy(&final->m_classificationData[i].m_totalRaceTime,&buffer[offset],sizeof(final->m_classificationData[i].m_totalRaceTime));
+        offset += sizeof(final->m_classificationData[i].m_totalRaceTime);
+        memcpy(&final->m_classificationData[i].m_penaltiesTime,&buffer[offset],sizeof(final->m_classificationData[i].m_penaltiesTime));
+        offset += sizeof(final->m_classificationData[i].m_penaltiesTime);
+        memcpy(&final->m_classificationData[i].m_numPenalties,&buffer[offset],sizeof(final->m_classificationData[i].m_numPenalties));
+        offset += sizeof(final->m_classificationData[i].m_numPenalties);
+        memcpy(&final->m_classificationData[i].m_numTyreStints,&buffer[offset],sizeof(final->m_classificationData[i].m_numTyreStints));
+        offset += sizeof(final->m_classificationData[i].m_numTyreStints);
+        for(int j = 0;j < 8;j++)
+        {
+            memcpy(&final->m_classificationData[i].m_tyreStintsActual[j],&buffer[offset],sizeof(final->m_classificationData[i].m_tyreStintsActual[j]));
+            offset += sizeof(final->m_classificationData[i].m_tyreStintsActual[j]);
+        }
+        for(int j = 0;j < 8;j++)
+        {
+            memcpy(&final->m_classificationData[i].m_tyreStintsVisual[j],&buffer[offset],sizeof(final->m_classificationData[i].m_tyreStintsVisual[j]));
+            offset += sizeof(final->m_classificationData[i].m_tyreStintsVisual[j]);
+        }
+    }
+}
+
+void copy_to_lobbyInfo(char *buffer,PacketLobbyInfoData *lobby)
+{
+    int offset = copy_to_header(buffer,&(lobby->m_header));
+    memcpy(&lobby->m_numPlayers,&buffer[offset],sizeof(lobby->m_numPlayers));
+    offset += sizeof(lobby->m_numPlayers);
+    for(int i = 0;i < 22;i++)
+    {
+        memcpy(&lobby->m_lobbyPlayers[i].m_aiControlled,&buffer[offset],sizeof(lobby->m_lobbyPlayers[i].m_aiControlled));
+        offset += sizeof(lobby->m_lobbyPlayers[i].m_aiControlled);
+        memcpy(&lobby->m_lobbyPlayers[i].m_teamId,&buffer[offset],sizeof(lobby->m_lobbyPlayers[i].m_teamId));
+        offset += sizeof(lobby->m_lobbyPlayers[i].m_teamId);
+        memcpy(&lobby->m_lobbyPlayers[i].m_nationality,&buffer[offset],sizeof(lobby->m_lobbyPlayers[i].m_nationality));
+        offset += sizeof(lobby->m_lobbyPlayers[i].m_nationality);
+        for(int j = 0;j < 48;j++)
+        {
+            memcpy(&lobby->m_lobbyPlayers[i].m_name[j],&buffer[offset],sizeof(lobby->m_lobbyPlayers[i].m_name[j]));
+            offset += sizeof(lobby->m_lobbyPlayers[i].m_name[j]);
+        }
+        memcpy(&lobby->m_lobbyPlayers[i].m_readyStatus,&buffer[offset],sizeof(lobby->m_lobbyPlayers[i].m_readyStatus));
+        offset += sizeof(lobby->m_lobbyPlayers[i].m_readyStatus);
+    }
+}
+
+
+void copy_to_motion(char *buffer,PacketMotionData *motion)
+{
+    int offset = copy_to_header(buffer,&(motion->m_header));
+    for(int i = 0;i < 22;i++)
+    {
+        memcpy(&motion->m_carMotionData[i].m_worldPositionX,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldPositionX));
+        offset += sizeof(motion->m_carMotionData[i].m_worldPositionX);
+        memcpy(&motion->m_carMotionData[i].m_worldPositionY,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldPositionY));
+        offset += sizeof(motion->m_carMotionData[i].m_worldPositionY);
+        memcpy(&motion->m_carMotionData[i].m_worldPositionZ,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldPositionZ));
+        offset += sizeof(motion->m_carMotionData[i].m_worldPositionZ);
+        memcpy(&motion->m_carMotionData[i].m_worldVelocityX,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldVelocityX));
+        offset += sizeof(motion->m_carMotionData[i].m_worldVelocityX);
+        memcpy(&motion->m_carMotionData[i].m_worldVelocityY,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldVelocityY));
+        offset += sizeof(motion->m_carMotionData[i].m_worldVelocityY);
+        memcpy(&motion->m_carMotionData[i].m_worldVelocityZ,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldVelocityZ));
+        offset += sizeof(motion->m_carMotionData[i].m_worldVelocityZ);
+        memcpy(&motion->m_carMotionData[i].m_worldVelocityX,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldVelocityX));
+        offset += sizeof(motion->m_carMotionData[i].m_worldForwardDirX);
+        memcpy(&motion->m_carMotionData[i].m_worldForwardDirY,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldForwardDirY));
+        offset += sizeof(motion->m_carMotionData[i].m_worldForwardDirY);
+        memcpy(&motion->m_carMotionData[i].m_worldForwardDirZ,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldForwardDirZ));
+        offset += sizeof(motion->m_carMotionData[i].m_worldForwardDirZ);
+        memcpy(&motion->m_carMotionData[i].m_worldRightDirX,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldRightDirX));
+        offset += sizeof(motion->m_carMotionData[i].m_worldRightDirX);
+        memcpy(&motion->m_carMotionData[i].m_worldRightDirY,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldRightDirY));
+        offset += sizeof(motion->m_carMotionData[i].m_worldRightDirY);
+        memcpy(&motion->m_carMotionData[i].m_worldRightDirZ,&buffer[offset],sizeof(motion->m_carMotionData[i].m_worldRightDirZ));
+        offset += sizeof(motion->m_carMotionData[i].m_worldRightDirZ);
+        memcpy(&motion->m_carMotionData[i].m_gForceLateral,&buffer[offset],sizeof(motion->m_carMotionData[i].m_gForceLateral));
+        offset += sizeof(motion->m_carMotionData[i].m_gForceLateral);
+        memcpy(&motion->m_carMotionData[i].m_gForceLongitudinal,&buffer[offset],sizeof(motion->m_carMotionData[i].m_gForceLongitudinal));
+        offset += sizeof(motion->m_carMotionData[i].m_gForceLongitudinal);
+        memcpy(&motion->m_carMotionData[i].m_gForceVertical,&buffer[offset],sizeof(motion->m_carMotionData[i].m_gForceVertical));
+        offset += sizeof(motion->m_carMotionData[i].m_gForceVertical);
+        memcpy(&motion->m_carMotionData[i].m_yaw,&buffer[offset],sizeof(motion->m_carMotionData[i].m_yaw));
+        offset += sizeof(motion->m_carMotionData[i].m_yaw);
+        memcpy(&motion->m_carMotionData[i].m_pitch,&buffer[offset],sizeof(motion->m_carMotionData[i].m_pitch));
+        offset += sizeof(motion->m_carMotionData[i].m_pitch);
+        memcpy(&motion->m_carMotionData[i].m_roll,&buffer[offset],sizeof(motion->m_carMotionData[i].m_roll));
+        offset += sizeof(motion->m_carMotionData[i].m_roll);
+    }
+    for(int i = 0;i < 4;i++)
+    {
+        memcpy(&motion->m_suspensionPosition[i],&buffer[offset],sizeof(motion->m_suspensionPosition[i]));
+        offset += sizeof(motion->m_suspensionPosition[i]);
+    }
+    for(int i = 0;i < 4;i++)
+    {
+        memcpy(&motion->m_suspensionVelocity[i],&buffer[offset],sizeof(motion->m_suspensionVelocity[i]));
+        offset += sizeof(motion->m_suspensionPosition[i]);
+    }
+    for(int i = 0;i < 4;i++)
+    {
+        memcpy(&motion->m_suspensionAcceleration[i],&buffer[offset],sizeof(motion->m_suspensionAcceleration[i]));
+        offset += sizeof(motion->m_suspensionAcceleration[i]);
+    }
+        for(int i = 0;i < 4;i++)
+    {
+        memcpy(&motion->m_wheelSpeed[i],&buffer[offset],sizeof(motion->m_wheelSpeed[i]));
+        offset += sizeof(motion->m_wheelSpeed[i]);
+    }
+    for(int i = 0;i < 4;i++)
+    {
+        memcpy(&motion->m_wheelSlip[i],&buffer[offset],sizeof(motion->m_wheelSlip[i]));
+        offset += sizeof(motion->m_wheelSlip[i]);
+    }
+    memcpy(&motion->m_localVelocityX,&buffer[offset],sizeof(motion->m_localVelocityX));
+    offset += sizeof(motion->m_localVelocityX);
+    memcpy(&motion->m_localVelocityY,&buffer[offset],sizeof(motion->m_localVelocityY));
+    offset += sizeof(motion->m_localVelocityY);
+    memcpy(&motion->m_localVelocityZ,&buffer[offset],sizeof(motion->m_localVelocityZ));
+    offset += sizeof(motion->m_localVelocityZ);
+    memcpy(&motion->m_angularVelocityX,&buffer[offset],sizeof(motion->m_angularVelocityX));
+    offset += sizeof(motion->m_angularVelocityX);
+    memcpy(&motion->m_angularVelocityY,&buffer[offset],sizeof(motion->m_angularVelocityY));
+    offset += sizeof(motion->m_angularVelocityY);
+    memcpy(&motion->m_angularVelocityZ,&buffer[offset],sizeof(motion->m_angularVelocityZ));
+    offset += sizeof(motion->m_angularVelocityZ);
+    memcpy(&motion->m_angularAccelerationX,&buffer[offset],sizeof(motion->m_angularAccelerationX));
+    offset += sizeof(motion->m_angularAccelerationX);
+    memcpy(&motion->m_angularAccelerationY,&buffer[offset],sizeof(motion->m_angularAccelerationY));
+    offset += sizeof(motion->m_angularAccelerationY);
+    memcpy(&motion->m_angularAccelerationZ,&buffer[offset],sizeof(motion->m_angularAccelerationZ));
+    offset += sizeof(motion->m_angularAccelerationZ);
+    memcpy(&motion->m_frontWheelsAngle,&buffer[offset],sizeof(motion->m_frontWheelsAngle));
+    offset += sizeof(motion->m_frontWheelsAngle);
+}
+
+void copy_to_participants(char *buffer,PacketParticipantsData *participants)
+{
+    int offset = copy_to_header(buffer,&(participants->m_header));
+    memcpy(&participants->m_numActiveCars,&buffer[offset],sizeof(participants->m_numActiveCars));
+    offset += sizeof(participants->m_numActiveCars);
+    for(int i = 0;i < 22;i++)
+    {
+        memcpy(&participants->m_participants[i].m_aiControlled,&buffer[offset],sizeof(participants->m_participants[i].m_aiControlled));
+        offset += sizeof(participants->m_participants[i].m_aiControlled);
+        memcpy(&participants->m_participants[i].m_driverId,&buffer[offset],sizeof(participants->m_participants[i].m_driverId));
+        offset += sizeof(participants->m_participants[i].m_driverId);
+        memcpy(&participants->m_participants[i].m_teamId,&buffer[offset],sizeof(participants->m_participants[i].m_teamId));
+        offset += sizeof(participants->m_participants[i].m_teamId);
+        memcpy(&participants->m_participants[i].m_raceNumber,&buffer[offset],sizeof(participants->m_participants[i].m_raceNumber));
+        offset += sizeof(participants->m_participants[i].m_raceNumber);
+        memcpy(&participants->m_participants[i].m_nationality,&buffer[offset],sizeof(participants->m_participants[i].m_nationality));
+        offset += sizeof(participants->m_participants[i].m_nationality);
+        memcpy(&participants->m_participants[i].m_name,&buffer[offset],48);
+        offset += 48;
+        memcpy(&participants->m_participants[i].m_yourTelemetry,&buffer[offset],sizeof(participants->m_participants[i].m_yourTelemetry));
+        offset += sizeof(participants->m_participants[i].m_yourTelemetry);
+    }
+}
+
+void copy_to_session(char *buffer,PacketSessionData *session)
+{
+    int offset = copy_to_header(buffer,&(session->m_header));
+    memcpy(&session->m_weather,&buffer[offset],sizeof(session->m_weather));
+    offset += sizeof(session->m_weather);
+    memcpy(&session->m_trackTemperature,&buffer[offset],sizeof(session->m_trackTemperature));
+    offset += sizeof(session->m_trackTemperature);
+    memcpy(&session->m_airTemperature,&buffer[offset],sizeof(session->m_airTemperature));
+    offset += sizeof(session->m_airTemperature);
+    memcpy(&session->m_totalLaps,&buffer[offset],sizeof(session->m_totalLaps));
+    offset += sizeof(session->m_totalLaps);
+    memcpy(&session->m_trackLength,&buffer[offset],sizeof(session->m_trackLength));
+    offset += sizeof(session->m_trackLength);
+    memcpy(&session->m_sessionType,&buffer[offset],sizeof(session->m_sessionType));
+    offset += sizeof(session->m_sessionType);
+    memcpy(&session->m_trackId,&buffer[offset],sizeof(session->m_trackId));
+    offset += sizeof(session->m_trackId);
+    memcpy(&session->m_formula,&buffer[offset],sizeof(session->m_formula));
+    offset += sizeof(session->m_formula);
+    memcpy(&session->m_sessionTimeLeft,&buffer[offset],sizeof(session->m_sessionTimeLeft));
+    offset += sizeof(session->m_sessionTimeLeft);
+    memcpy(&session->m_sessionDuration,&buffer[offset],sizeof(session->m_sessionDuration));
+    offset += sizeof(session->m_sessionDuration);
+    memcpy(&session->m_pitSpeedLimit,&buffer[offset],sizeof(session->m_pitSpeedLimit));
+    offset += sizeof(session->m_pitSpeedLimit);
+    memcpy(&session->m_gamePaused,&buffer[offset],sizeof(session->m_gamePaused));
+    offset += sizeof(session->m_gamePaused);
+    memcpy(&session->m_isSpectating,&buffer[offset],sizeof(session->m_isSpectating));
+    offset += sizeof(session->m_isSpectating);
+    memcpy(&session->m_spectatorCarIndex,&buffer[offset],sizeof(session->m_spectatorCarIndex));
+    offset += sizeof(session->m_spectatorCarIndex);
+    memcpy(&session->m_sliProNativeSupport,&buffer[offset],sizeof(session->m_sliProNativeSupport));
+    offset += sizeof(session->m_sliProNativeSupport);
+    memcpy(&session->m_numMarshalZones,&buffer[offset],sizeof(session->m_numMarshalZones));
+    offset += sizeof(session->m_numMarshalZones);
+    for(int i = 0;i < 21;i++)
+    {
+        memcpy(&session->m_marshalZones[i].m_zoneStart,&buffer[offset],sizeof(session->m_marshalZones[i].m_zoneStart));
+        offset += sizeof(session->m_marshalZones[i].m_zoneStart);
+        memcpy(&session->m_marshalZones[i].m_zoneFlag,&buffer[offset],sizeof(session->m_marshalZones[i].m_zoneFlag));
+        offset += sizeof(session->m_marshalZones[i].m_zoneFlag);
+    }
+    memcpy(&session->m_safetyCarStatus,&buffer[offset],sizeof(session->m_safetyCarStatus));
+    offset += sizeof(session->m_safetyCarStatus);
+    memcpy(&session->m_networkGame,&buffer[offset],sizeof(session->m_networkGame));
+    offset += sizeof(session->m_networkGame);
+    memcpy(&session->m_numWeatherForecastSamples,&buffer[offset],sizeof(session->m_numWeatherForecastSamples));
+    offset += sizeof(session->m_numWeatherForecastSamples);
+    for(int i = 0; i < 20;i++)
+    {
+        memcpy(&session->m_weatherForecastSamples[i].m_sessionType,&buffer[offset],sizeof(session->m_weatherForecastSamples[i].m_sessionType));
+        offset += sizeof(session->m_weatherForecastSamples[i].m_sessionType);
+        memcpy(&session->m_weatherForecastSamples[i].m_timeOffset,&buffer[offset],sizeof(session->m_weatherForecastSamples[i].m_timeOffset));
+        offset += sizeof(session->m_weatherForecastSamples[i].m_timeOffset);
+        memcpy(&session->m_weatherForecastSamples[i].m_weather,&buffer[offset],sizeof(session->m_weatherForecastSamples[i].m_weather));
+        offset += sizeof(session->m_weatherForecastSamples[i].m_weather);
+        memcpy(&session->m_weatherForecastSamples[i].m_trackTemperature,&buffer[offset],sizeof(session->m_weatherForecastSamples[i].m_trackTemperature));
+        offset += sizeof(session->m_weatherForecastSamples[i].m_trackTemperature);
+        memcpy(&session->m_weatherForecastSamples[i].m_airTemperature,&buffer[offset],sizeof(session->m_weatherForecastSamples[i].m_airTemperature));
+        offset += sizeof(session->m_weatherForecastSamples[i].m_airTemperature);
+    }
+}
+
