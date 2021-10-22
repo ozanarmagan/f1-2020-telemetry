@@ -1,3 +1,6 @@
+#ifndef _handler_h
+#define _handler_h
+
 #include "packetHeader.h"
 #include "carSetupsPacket.h"
 #include "carStatusPacket.h"
@@ -9,3 +12,5 @@
 #include "motionPacket.h"
 #include "participantsPacket.h"
 #include "sessionPacket.h"
+
+#endif

@@ -241,6 +241,17 @@ void copy_to_carStatus(char *buffer,PacketCarStatusData *car_status)
             memcpy(&car_status->m_carStatusData[i].m_tyresWear[j],&buffer[offset],sizeof(car_status->m_carStatusData[i].m_tyresWear[j]));
             offset += sizeof(car_status->m_carStatusData[i].m_tyresWear[j]);
         }
+        memcpy(&car_status->m_carStatusData[i].m_actualTyreCompound,&buffer[offset],sizeof(car_status->m_carStatusData[i].m_actualTyreCompound));
+        offset += sizeof(car_status->m_carStatusData[i].m_actualTyreCompound);
+        memcpy(&car_status->m_carStatusData[i].m_visualTyreCompound,&buffer[offset],sizeof(car_status->m_carStatusData[i].m_visualTyreCompound));
+        offset += sizeof(car_status->m_carStatusData[i].m_visualTyreCompound);
+        memcpy(&car_status->m_carStatusData[i].m_tyresAgeLaps,&buffer[offset],sizeof(car_status->m_carStatusData[i].m_tyresAgeLaps));
+        offset += sizeof(car_status->m_carStatusData[i].m_tyresAgeLaps);
+        for(int j = 0; j < 4;j++)
+        {
+            memcpy(&car_status->m_carStatusData[i].m_tyresDamage[j],&buffer[offset],sizeof(car_status->m_carStatusData[i].m_tyresDamage[j]));
+            offset += sizeof(car_status->m_carStatusData[i].m_tyresDamage[j]);
+        }
         memcpy(&car_status->m_carStatusData[i].m_frontLeftWingDamage,&buffer[offset],sizeof(car_status->m_carStatusData[i].m_frontLeftWingDamage));
         offset += sizeof(car_status->m_carStatusData[i].m_frontLeftWingDamage);
         memcpy(&car_status->m_carStatusData[i].m_frontRightWingDamage,&buffer[offset],sizeof(car_status->m_carStatusData[i].m_frontRightWingDamage));
